@@ -24,9 +24,18 @@ class Fish (Animal):
 
 
 dog = Mammal()
-dog.eat("rabbit")
-dog.walk()
+dog.eat("rabbit")  # "is eating rabbit"
+dog.walk()         # "is walking"
 
 nemo = Fish()
-nemo.eat("plankton")
-nemo.swim()
+nemo.eat("plankton")  # "is eating plankton"
+nemo.swim()           # "is swimming"
+
+# Check if one object is instance of a certain type
+print(isinstance(dog, Mammal))  # True
+print(isinstance(dog, Animal))  # True
+print(isinstance(dog, object))  # True
+
+# Check if one class is a subclass of (Type or Type or Type...)
+print(issubclass(Fish, Mammal))                    # False
+print(issubclass(Fish, (Mammal, Animal, object)))  # True
