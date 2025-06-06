@@ -59,7 +59,7 @@ class MemoryStream(Stream):
 # Cannot instantiate abstract class Stream
 # stream = Stream()
 # Cannot instantiate abstract class MemoryStream
-stream = MemoryStream()
+# stream = MemoryStream()
 
 fstream = FileStream()
 fstream.open()
