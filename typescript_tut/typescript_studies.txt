@@ -1,0 +1,13 @@
+Typescript is built on top of JavaScript, so it uses all the same conventions and keywords.  All JS is valid TS, but TS can be considered a superset of JS since it adds extra stuff plus has static typing.
+
+let turns into var in the default TS compiler (can be changed, but basically the default is running ECMAScript 5, which has no let keyword for declaring variables).
+
+Typing a variable is as easy as `: typeName`, like in Python, except that while TS will also confer data type by assignment like in Python and JS, it is probably faster during compilation because TS compiler pays attention to and tracks that stuff.
+
+Compile with TypeScript Compiler and the name of the TS file:
+tsc fileName.ts
+
+It generates a new file:
+fileName.js
+
+of the same name but a JS file.  It's basically JS of the same ECMAScript version.
