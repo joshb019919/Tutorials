@@ -13,6 +13,10 @@ hold data and have no functional methods.
 
 This is where the namedtuple type comes in.  It allows the creation of
 a type, creates a name for it, and allows comparison with "==".
+
+Of course, tuples are immutable, so to change any values, either a new
+object must be created from the same variable name or the Point class
+must be used, after all.
 """
 
 from collections import namedtuple
