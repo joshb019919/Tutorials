@@ -11,6 +11,11 @@ UIControl abstract class were to be removed, the draw function would
 still work fine, because Python doesn't check type even between the
 different items of the same list.  They can be completely different 
 types or objects and it will run, just fine.
+
+It's still good practice, because the abstract classes act as
+interfaces (a concept Python doesn't actually have) which enforces
+interface contracts.  All UIControls inheriting from UIControl class
+will have a draw method.
 """
 
 from abc import ABC, abstractmethod
