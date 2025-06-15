@@ -1,0 +1,15 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+{% include "../head.html" with title="User dashboard" %}
+<body>
+    <div class="container">
+        <h2>Welcome to your home page, {{request.user.username}}.</h2>
+        <a href="{% url 'protected' %}">Go to your protected page.</a>
+        <form action="{% url "logout" %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+</body>
+</html>
