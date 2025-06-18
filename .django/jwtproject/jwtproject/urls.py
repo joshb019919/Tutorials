@@ -16,7 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("", include("jwtapp.urls")),  # Brings app URLs to top layer
+]
+
+# Keep patterns clean by adding login option after the fact
+urlpatterns += [
+    path("api-auth/", include("rest_framework.urls")),
 ]
