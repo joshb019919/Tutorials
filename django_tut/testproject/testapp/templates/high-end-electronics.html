@@ -1,0 +1,15 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang='en-us'>
+{% include "head.html" with title="High-End Electronics" %}
+<body>
+    <h1>High-end Electronic Products:</h1>
+    <div>
+        <ul>
+            {% for product in products %}
+            <li>{{product}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

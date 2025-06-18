@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+{% include "../head.html" with title="Register user" %}
+<body>
+    <div class="container">
+        <h2>Register:</h2>
+        <form action="{% url 'register' %}" method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit">Register</button>
+        </form>
+
+        {% if error %}
+            <p class="error"{{error}}</p>
+        {% endif %}
+    </div>
+</body>
+</html>

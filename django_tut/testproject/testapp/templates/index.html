@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<HTML lang="en-us">
+{% include 'head.html' with title="Django Tutorial!" %}
+<body>
+    <h1>Products:</h1>
+    <ul>
+        {% for product in products %}
+        <li>{{product}}</li>
+        {% endfor %}
+    </ul>
+
+    <h1 class="down-some">Django Forms!!!!</h1>
+    <div class="centered-content">
+        <img src={% static "images/django_logo.png" %}>
+        <form action={% url "contact" %} method="GET">
+            <button class="btn">Click to Enter Form</button>
+        </form>
+    </div>
+
+    <form action={% url "highend-electronics" %} method="GET">
+        <button class="btn">High End Electronic Products</button>
+    </form>
+
+    <link src={% static 'js/script.js' %}>
+</body>
+</HTML>
