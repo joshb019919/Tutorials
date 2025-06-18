@@ -25,7 +25,7 @@ class ProfileList(generics.ListCreateAPIView):
     """Get or create profiles belonging to creating user."""
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
     
     def perform_create(self, serializer):
         """Associates creating user with user's profile."""
@@ -36,4 +36,4 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     """Get, change, or destroy a profile belonging to creating user."""
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwner]
+    permission_classes = [permissions.IsAuthenticated, IsOwner]
