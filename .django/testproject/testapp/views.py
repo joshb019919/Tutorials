@@ -9,19 +9,23 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Built-in user model for validation for sessions
 from django.contrib.auth.models import User, Group
+from django.contrib.auth.views import LoginView
 # A shortcut for HttpResponse(request, render(such-and-such))
 from django.shortcuts import render
 # A shortcut for render where URL name is used instead
 from django.shortcuts import redirect
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
 # For RESTful views
-from rest_framework import permissions, viewsets
+from rest_framework import permissions, viewsets, generics
 # A simple parent class for all class-based views
 from django.views import View
 
-from.serializers import GroupSerializer, UserSerializer, BookSerializer
-from .models import Product, Book
+from.serializers import GroupSerializer, UserSerializer, BookSerializer, ProfileSerializer
+from .models import Product, Book, Profile
 from .form import ContactForm
 from .form import RegisterForm
+from .permissions import IsOwner
 
 
 # Create your views here.
@@ -67,7 +71,7 @@ def register_view(request):
             password = form.cleaned_data.get("password")
             user = User.objects.create_user(username=username, password=password)
             login(request, user)
-            return redirect("home")
+            return redirect("books")
     else:
         form = RegisterForm()
     return render(request, "accounts/register.html", {"form": form})
@@ -81,7 +85,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            next_url = request.POST.get("next") or request.GET.get("next") or "home"
+            next_url = request.POST.get("next") or request.GET.get("next") or "books"
             return redirect(next_url)
         else:
             error_message = "Invalid credentials!"
@@ -135,8 +139,33 @@ class GroupViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     
     
-class BookViewSet(viewsets.ModelViewSet):
+def user_view(request):
+    username = request.POST["username"]
+    password = request.POST["password"]
+    user = authenticate(request, username=username, password=password)
+    
+    if user is not None:
+        login(request, user)
+    else:
+        redirect("login")
+    
+
+class BookViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
     """API endpoint allowing books to be viewed or edited."""
     queryset = Book.objects.all().order_by("author", "title")
     serializer_class = BookSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsOwner]
+    
+    
+class ProfileDetail(LoginRequiredMixin, viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = [permissions.IsAuthenticated, IsOwner]
+            
+    def perform_update(self, serializer):
+        serializer.save(user=self.request.user)
+        
+    def perform_delete(self, instance):
+        if instance.user != self.request.user:
+            raise PermissionError("You don't have permission to view this profile.")
+        instance.delete()

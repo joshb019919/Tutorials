@@ -1,10 +1,9 @@
 from django.contrib.auth.models import User, Group
-from django.db.models.functions import Now
 from rest_framework import serializers
 from decimal import Decimal
 from datetime import datetime
 
-from .models import Book, LANGUAGE_CHOICES, STYLE_CHOICES
+from .models import Book, LANGUAGE_CHOICES, STYLE_CHOICES, Profile
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -35,3 +34,10 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Book
         fields = ["title", "author", "published_date", "price"]
+        
+    
+class ProfileSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ["id", "user", "bio"]
+        read_only_fields = ["user"]

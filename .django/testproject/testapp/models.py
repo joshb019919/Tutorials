@@ -26,7 +26,7 @@ class Product(models.Model):
 
     # String representation of products
     def __str__(self):
-        return f"ID: {self.id}, Name: {self.name}, Price: {self.value}, Description: {self.description}"
+        return f"ID: {self.id}, Name: {self.name}, Price: {self.value}, Description: {self.description}" # type: ignore
     
     
 class Book(models.Model):
@@ -34,3 +34,11 @@ class Book(models.Model):
     author = models.CharField(max_length=64, blank=False)
     published_date = models.DateField(blank=False)
     price = models.DecimalField(max_digits=6, decimal_places=2, blank=False)
+    
+    
+class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=256)
+    
+    def __str__(self):
+        return f"{self.user.username}'s profile."
